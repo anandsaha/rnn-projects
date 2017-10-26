@@ -82,7 +82,7 @@ def decode_to_text(c, avoid_tab_and_lf=False):
     return "".join(map(lambda a: chr(convert_to_alphabet(a, avoid_tab_and_lf)), c))
 
 
-def sample_from_probabilities(probabilities, topn=ALPHASIZE):
+def sample_from_probabilities(probabilities, topn=ALPHASIZE, vocabsize=ALPHASIZE):
     """Roll the dice to produce a random integer in the [0..ALPHASIZE] range,
     according to the provided probabilities. If topn is specified, only the
     topn highest probabilities are taken into account.
@@ -93,7 +93,7 @@ def sample_from_probabilities(probabilities, topn=ALPHASIZE):
     p = np.squeeze(probabilities)
     p[np.argsort(p)[:-topn]] = 0
     p = p / np.sum(p)
-    return np.random.choice(ALPHASIZE, 1, p=p)[0]
+    return np.random.choice(vocabsize, 1, p=p)[0]
 
 
 def rnn_minibatch_sequencer(raw_data, batch_size, sequence_size, nb_epochs):
